@@ -1,0 +1,118 @@
+# api-gateway.yaml
+swagger: '2.0'
+info:
+  title: shopping-list
+  description: Shopping list API
+  version: 1.0.0
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /shopping-list:
+    get:
+      summary: Get shopping list
+      operationId: getShoppingList
+      x-google-backend:
+        address: https://europe-west1-crested-axe-227312.cloudfunctions.net/get-shopping-list
+      responses:
+        '200':
+          description: List with items from shopping list
+          schema:
+            type: string
+    options:
+      summary: Handle CORS
+      operationId: handleCors
+      x-google-backend:
+        address: https://europe-west1-crested-axe-227312.cloudfunctions.net/handle-cors
+      responses:
+        '204':
+          description: CORS handled.
+          schema:
+            type: string
+  /add-shopping-item:
+    post:
+      summary: Adds an item to shopping list.
+      operationId: addShoppingItem
+      x-google-backend:
+        address: https://europe-west1-crested-axe-227312.cloudfunctions.net/add-shopping-item
+      responses:
+        '200':
+          description: Added item successfully.
+          schema:
+            type: object
+    options:
+      summary: Handle CORS
+      operationId: handleCorsAddShoppingItem
+      x-google-backend:
+        address: https://europe-west1-crested-axe-227312.cloudfunctions.net/handle-cors
+      responses:
+        '204':
+          description: CORS handled.
+          schema:
+            type: string
+  /delete-shopping-item:
+    post:
+      summary: Deletes an item from shopping list.
+      operationId: deleteShoppingItem
+      x-google-backend:
+        address: https://europe-west1-crested-axe-227312.cloudfunctions.net/delete-shopping-item
+      responses:
+        '200':
+          description: Deleted item successfully.
+          schema:
+            type: object
+    options:
+      summary: Handle CORS
+      operationId: handleCorsDeleteShoppingItem
+      x-google-backend:
+        address: https://europe-west1-crested-axe-227312.cloudfunctions.net/handle-cors
+      responses:
+        '204':
+          description: CORS handled.
+          schema:
+            type: string
+
+  /delete-all-items:
+    post:
+      summary: Deletes all items from shopping list.
+      operationId: deleteAllItems
+      x-google-backend:
+        address: https://europe-west1-crested-axe-227312.cloudfunctions.net/delete-all-items
+      responses:
+        '200':
+          description: Deleted items successfully.
+          schema:
+            type: object
+    options:
+      summary: Handle CORS
+      operationId: handleCorsDeleteAllItems
+      x-google-backend:
+        address: https://europe-west1-crested-axe-227312.cloudfunctions.net/handle-cors
+      responses:
+        '204':
+          description: CORS handled.
+          schema:
+            type: string
+
+  /read-reports:
+    get:
+      summary: Retrieves shopping list reports.
+      operationId: readReports
+      x-google-backend:
+        address: https://europe-west1-crested-axe-227312.cloudfunctions.net/read-reports
+      responses:
+        '200':
+          description: Reports read successfully.
+          schema:
+            type: object
+    options:
+      summary: Handle CORS
+      operationId: handleCorsReadReports
+      x-google-backend:
+        address: https://europe-west1-crested-axe-227312.cloudfunctions.net/handle-cors
+      responses:
+        '204':
+          description: CORS handled.
+          schema:
+            type: string

@@ -1,0 +1,14 @@
+{
+  "name": "create-report",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "dependencies": {
+    "@google-cloud/functions-framework": "latest",
+    "@google-cloud/pubsub": "latest",
+    "firebase-admin": "^9.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "functions-framework --target=createReport"
+  }
+}

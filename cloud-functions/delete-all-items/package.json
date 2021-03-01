@@ -1,0 +1,14 @@
+{
+  "name": "delete-all-items",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "dependencies": {
+    "@google-cloud/functions-framework": "latest",
+    "firebase-admin": "^9.4.2",
+    "@google-cloud/pubsub": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "functions-framework --target=deleteAllItems"
+  }
+}

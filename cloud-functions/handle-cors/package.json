@@ -1,0 +1,12 @@
+{
+  "name": "handle-cors",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "dependencies": {
+    "@google-cloud/functions-framework": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "functions-framework --target=handleCors"
+  }
+}
