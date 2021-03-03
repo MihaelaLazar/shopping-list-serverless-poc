@@ -10,7 +10,8 @@ locals {
       location = var.region,
       bucket_policy_only = false,
       name = local.index_zip_name,
-      source = "../cloud-functions/output/get-shopping-list.zip" ,
+      zip_source = "../cloud-functions/output/get-shopping-list.zip" ,
+      source = "../cloud-functions/get-shopping-list",
       entry_point = "getShoppingList",
       description = "Function for reading shopping list from db."
     }
@@ -18,7 +19,8 @@ locals {
       location = var.region,
       bucket_policy_only = false,
       name = local.index_zip_name,
-      source = "../cloud-functions/output/add-shopping-item.zip",
+      zip_source = "../cloud-functions/output/add-shopping-item.zip",
+      source = "../cloud-functions/add-shopping-item",
       entry_point = "addShoppingItem",
       description = "Function for adding/updating a shopping item."
     }
@@ -26,7 +28,8 @@ locals {
       location = var.region,
       bucket_policy_only = false,
       name = local.index_zip_name,
-      source = "../cloud-functions/output/delete-shopping-item.zip",
+      zip_source = "../cloud-functions/output/delete-shopping-item.zip",
+      source = "../cloud-functions/delete-shopping-item",
       entry_point = "deleteShoppingItem",
       description = "Function for deleting/removing a shopping item."
     }
@@ -34,7 +37,8 @@ locals {
       location = var.region,
       bucket_policy_only = false,
       name = local.index_zip_name,
-      source = "../cloud-functions/output/delete-all-items.zip",
+      zip_source = "../cloud-functions/output/delete-all-items.zip",
+      source = "../cloud-functions/delete-all-items",
       entry_point = "deleteAllItems",
       description = "Function for deleting/removing all shopping items."
     }
@@ -42,7 +46,8 @@ locals {
       location = var.region,
       bucket_policy_only = false,
       name = local.index_zip_name,
-      source = "../cloud-functions/output/create-report.zip",
+      zip_source = "../cloud-functions/output/create-report.zip",
+      source = "../cloud-functions/create-report",
       entry_point = "createReport",
       description = "Function for creating report based on shopping list events."
     }
@@ -50,7 +55,8 @@ locals {
       location = var.region,
       bucket_policy_only = false,
       name = local.index_zip_name,
-      source = "../cloud-functions/output/read-reports.zip",
+      zip_source = "../cloud-functions/output/read-reports.zip",
+      source = "../cloud-functions/read-reports",
       entry_point = "readReports",
       description = "Function for reading reports based on shopping list events."
     }
@@ -58,7 +64,8 @@ locals {
       location = var.region,
       bucket_policy_only = false,
       name = local.index_zip_name,
-      source = "../cloud-functions/output/handle-cors.zip",
+      zip_source = "../cloud-functions/output/handle-cors.zip",
+      source = "../cloud-functions/handle-cors",
       entry_point = "handleCors",
       description = "Function for handling CORS."
     }
@@ -73,11 +80,27 @@ resource "google_storage_bucket" "map" {
   force_destroy      = true
 }
 
+resource "null_resource" "main_upload_folder_content" {
+  for_each = local.cloud_functions
+  triggers = {
+    file_hashes = jsonencode({
+    for fn in fileset(each.value.source, "**") :
+    fn => filesha256("${each.value.source}/${fn}")
+    })
+  }
+
+  provisioner "local-exec" {
+    command = "(cd ${each.value.source} && mkdir -p ../output && zip -r ../output/${each.key}.zip package.json src)"
+  }
+}
+
 resource "google_storage_bucket_object" "main-bucket-object" {
   for_each = local.cloud_functions
   name   = each.value.name
   bucket = google_storage_bucket.map[each.key].name
-  source = each.value.source
+  source = each.value.zip_source
+
+  depends_on = [null_resource.main_upload_folder_content]
 }
 
 resource "google_cloudfunctions_function" "main-cloud-function" {

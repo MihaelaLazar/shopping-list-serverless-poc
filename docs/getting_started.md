@@ -9,3 +9,15 @@ Before you deploy, you must have the following in place:
 # How to
 
 Follow these instructions to deploy the Serverless Shopping list application:
+
+    1. create a file terraform.tfvars containing the following:
+        * gcp_project = "< project id >"
+        * region = "<>"
+        * zone = "<>"
+        * firestore_zone = "<>"
+        * app_engine_region = "<>"
+    
+    2. cd infrastructure
+    3. terraform init
+    4. terraform plan
+    5. terraform apply
