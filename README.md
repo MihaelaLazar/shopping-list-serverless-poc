@@ -32,4 +32,4 @@ Summary of what the stack looks like now including a picture with the core tech:
 ### 3. Diagram
 #### High level infrastructure architecture
 
-![Diagram](./docs/general-diagram.jpg)
+![Diagram](./docs/general_diagram_detail.jpg)
