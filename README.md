@@ -30,4 +30,6 @@ Summary of what the stack looks like now including a picture with the core tech:
 ![Core stack](./docs/core-stack.jpg)
 
 ### 3. Diagram
+#### High level infrastructure architecture
+
 ![Diagram](./docs/general-diagram.jpg)
